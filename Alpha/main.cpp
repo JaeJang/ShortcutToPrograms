@@ -13,7 +13,7 @@
 //void PrivilegeProcess();
 HANDLE hMutex;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
-{
+{ 
 	///PrivilegeProcess();
 	MainWindow win;
 
