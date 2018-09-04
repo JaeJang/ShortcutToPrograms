@@ -64,6 +64,7 @@ BOOL EnumOpenWindows::EnumWindowsCallBack(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
+//RETURN: true if the window is reachable by alt-tab sequence.
 BOOL EnumOpenWindows::IsAltTabWindow(const HWND hwnd)
 {
 	HWND hwndWalk = GetAncestor(hwnd, GA_ROOTOWNER);
@@ -90,6 +91,8 @@ STRING EnumOpenWindows::GetProcessName(const HWND & hwnd)
 	
 }
 
+//If windows in the list are not existed anymore,
+//remove them from the list.
 void EnumOpenWindows::RemoveClosedWindow(LIST list)
 {
 	for (auto iter = list.begin(); iter != list.end();) {
