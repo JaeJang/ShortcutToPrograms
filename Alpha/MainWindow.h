@@ -87,7 +87,7 @@ private:
 	NOTIFYICONDATA notifyIconData;
 	HMENU m_menu;
 
-	BaseWindow<TextWindow> *numPad;
+	//BaseWindow<TextWindow> *numPad;
 	BaseWindow<EditWindow> *editWindows;
 	std::map<size_t, WCHAR*> pathMap;
 	std::map<STRING, LIST_HWND> openList;

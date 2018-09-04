@@ -14,7 +14,7 @@ void PrivilegeProcess();
 HANDLE hMutex;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
-	//PrivilegeProcess();
+	///PrivilegeProcess();
 	MainWindow win;
 
 	hMutex = CreateMutex(NULL, TRUE, MUTEX_NAME);

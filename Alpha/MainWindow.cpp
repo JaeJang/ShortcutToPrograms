@@ -83,7 +83,7 @@ void MainWindow::CleanUp()
 	}
 
 	SavePrograms();
-	delete[] numPad;
+	//delete[] numPad;
 	delete[] editWindows;
 	for (auto iter = pathMap.begin(); iter != pathMap.end(); ++iter)
 		delete[] iter->second;
@@ -137,15 +137,15 @@ void MainWindow::Restore()
 //Add all components in the window
 void MainWindow::AddContents(HWND hwnd) {
 
-	numPad = new TextWindow[NUM_OF_HOT_KEY];
+	//numPad = new TextWindow[NUM_OF_HOT_KEY];
 	editWindows = new EditWindow[NUM_OF_HOT_KEY];
 
-	memset(numPad, 0, sizeof(TextWindow) * NUM_OF_HOT_KEY);
+	//memset(numPad, 0, sizeof(TextWindow) * NUM_OF_HOT_KEY);
 	memset(editWindows, 0, sizeof(EditWindow) * NUM_OF_HOT_KEY);
 	for (int i = 0; i < NUM_OF_HOT_KEY; ++i) {
 		
 		//Create labels that indicates keys needed to be pressed
-		numPad[i] = TextWindow(i,
+		/*numPad[i] = */TextWindow(i,
 			NULL, 
 			WS_VISIBLE | WS_CHILD | SS_CENTER, 
 			TEXT_WINDOW_X, TEXT_WINDOW_Y + (TEXT_WINDOW_Y_INCREMENT*i),
@@ -210,6 +210,9 @@ BOOL MainWindow::RegisterKeys()
 	return TRUE;
 }
 
+//PARAM	: if true, register this program as a startup program.
+//		  If false, delete this program from registry.
+//RETURN: true if the process is ended successfully
 BOOL MainWindow::SetRegistryStartProgram(BOOL autoExec)
 {
 	WCHAR winName[MAX_WINDOW_NAME];
@@ -288,12 +291,6 @@ void MainWindow::SavePrograms()
 
 	std::wofstream fout;
 	fout.open(rootPath);
-	/*if (IsDlgButtonChecked(m_hwnd, SET_STARTUP)) {
-		fout << 1 << L"\n";
-	}
-	else {
-		fout << 0 << L"\n";
-	}*/
 	
 	for (auto iter = pathMap.begin(); iter != pathMap.end(); ++iter) {
 		fout << iter->first << "," << iter->second << L"\n";
@@ -375,9 +372,6 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 			RegisterKeys();
 		m_menu = CreatePopupMenu();
 		AppendMenu(m_menu, MF_STRING, TRAY_MENU_EXIT, L"Exit");
-#ifdef EXIT_WITH_ESC
-		RegisterHotKey(hwnd, 9999, NULL, VK_ESCAPE);
-#endif
 
 		return 0;
 	}
@@ -465,23 +459,16 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	}
 
 	case WM_HOTKEY:
-	{
+	{	
 		WORD keyPressed = LOWORD(wParam);
-		if (keyPressed == 9999) {
-			PostQuitMessage(0);
-			return 0;
-		}
+
 		if (pathMap.find(keyPressed) != pathMap.end()) {
 			WCHAR *temp = pathMap[keyPressed];
 			STRING s(temp);
 			//If there is an open process that have the same path with
-			//the path fired, switch to the process
-			//If there are more than one, switch them around instead of creating new window
+			//the path fired, switch to the process.
+			//If there are more than one, switch them around instead of creating new window.
 			if (!EnumOpenWindows::GetOpenProcess(openList[s], s)) {
-				//AllowSetForegroundWindow(ASFW_ANY);
-				/*SetFocus(openList[s].front());
-				SetActiveWindow(openList[s].front());
-				SetForegroundWindow(openList[s].front());*/
 				SwitchToThisWindow(openList[s].front(), TRUE);
 			}
 			else
@@ -493,15 +480,23 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_KEYDOWN:
 	{
 		WORD keyPressed = LOWORD(wParam);
-
+		//The program is minimized when it is enabled 
+		//and Escape key is pressed.
 		if (IsWindowEnabled(m_hwnd)) {
 			if (keyPressed == VK_ESCAPE) {
+
+#ifdef EXIT_WITH_ESC
+				//This is only for debugging purpose
+				PostQuitMessage(0);
+#else
 				Minimize();
+#endif
 			}
 		}
+		return 0;
 	}
-	
-	//Message associated with the icon in the notification area
+
+	//Message associated with the icon in the notification area.
 	case WM_TRAY:
 	{
 		switch (wParam)
