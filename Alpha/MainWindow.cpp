@@ -303,17 +303,11 @@ void MainWindow::SavePrograms()
 }
 
 //Load paths saved when this program closed lately
-//RETURN: true if there is a save file
+//RETURN: true if there is a save file.
 BOOL MainWindow::LoadPrograms()
 {
-
-	WCHAR winName[MAX_WINDOW_NAME];
-	GetWindowModuleFileName(m_hwnd, winName, MAX_WINDOW_NAME);
-	STRING rootPath(winName);
-	UINT found = rootPath.find_last_of(L"\\");
-	rootPath = rootPath.substr(0, found + 1);
-	rootPath += L"list.dat";
-
+	//If the programs is registered in Registry,
+	//checkbox should be checked.
 	/******************************/
 	HKEY hKey;
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
@@ -326,9 +320,19 @@ BOOL MainWindow::LoadPrograms()
 		else
 			CheckDlgButton(m_hwnd, SET_STARTUP, BST_UNCHECKED);
 	}
-
-
 	/******************************/
+
+	//I tried to use just "list.dat" for saved data,
+	//but when the program is released and moved to another directory,
+	//it doesn't read the file.
+	//Instead, it gets full path to exe file and add the saved file name 
+	//at the end of the path.
+	WCHAR winName[MAX_WINDOW_NAME];
+	GetWindowModuleFileName(m_hwnd, winName, MAX_WINDOW_NAME);
+	STRING rootPath(winName);
+	UINT found = rootPath.find_last_of(L"\\");
+	rootPath = rootPath.substr(0, found + 1);
+	rootPath += L"list.dat";
 
 	std::wfstream fin;
 	fin.open(rootPath);
@@ -338,16 +342,7 @@ BOOL MainWindow::LoadPrograms()
 		
 	}
 	WCHAR buffer[1024];
-	
-	
 
-	/*fin.getline(buffer, 1024);
-	int checked = wcstol(buffer, 0, 10);
-	if (checked) 
-		CheckDlgButton(m_hwnd, SET_STARTUP, BST_CHECKED);
-	else
-		CheckDlgButton(m_hwnd, SET_STARTUP, BST_UNCHECKED);
-	memset(buffer, 0, 1024);*/
 
 	while (fin.getline(buffer, 1024)) {
 		WCHAR *buffer2;
@@ -390,6 +385,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
+		//Actions for Register button.
 		case REGISTER_BUTTON: 
 			if (!RegisterKeys()) {
 				ERROR_MESSAGE(L"Fail to register Hotkeys", GetLastError());
@@ -397,6 +393,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 			}
 			MESSAGE_BOX(L"Registered");
 			return 0;
+		//Actions for Checkbox.
 		case SET_STARTUP:
 		{
 			BOOL checked = IsDlgButtonChecked(hwnd, SET_STARTUP);
@@ -416,6 +413,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		}
 		return 0;
 
+	//The programs is minimized when it is closed
 	case WM_CLOSE:
 		Minimize();
 		return 0;
@@ -423,6 +421,8 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+
+	//When the program is forced to close.
 	case WM_QUERYENDSESSION:
 		CleanUp();
 		return FALSE;
