@@ -420,6 +420,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_QUERYENDSESSION:
 		CleanUp();
 		return FALSE;
+
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -429,32 +430,15 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		EndPaint(m_hwnd, &ps);
 		return 0;
 	}
-	
-	/*case WM_SYSCOMMAND:
-	{
-	switch (wParam & 0xfff0)
-	{
-	case SC_MINIMIZE:
-	case SC_CLOSE:
-	Minimize();
-	return 0;
-	}
-	return 0;
-	}*/
 
 	//Paint key labels
 	case WM_CTLCOLORSTATIC:
 	{
-		/*for (auto x : numPad) {
-			HWND l = (HWND)lParam;
-			if ((HWND)lParam == x) {*/
-				HDC hdcStatic = (HDC)wParam;
-				SetBkColor(hdcStatic, RGB(255, 255, 255));
+		
+		HDC hdcStatic = (HDC)wParam;
+		SetBkColor(hdcStatic, RGB(255, 255, 255));
 
-				return (LRESULT)GetStockObject(NULL_BRUSH);
-		/*	}
-		}*/
-		return 0;
+		return (LRESULT)GetStockObject(NULL_BRUSH);
 		
 	}
 

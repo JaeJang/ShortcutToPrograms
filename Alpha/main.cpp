@@ -4,19 +4,20 @@
 
 //#define OPEN_WINDOW
 
-#define MUTEX_NAME L"DO NOT CREATE INSTANTIATE THIS APP MORE THAN ONCE"
+#define MUTEX_NAME L"DO NOT CREATE INSTANTIATE THIS SHORT CUT APP MORE THAN ONCE"
 #define WINDOW_NAME L"Shortcut To Your Program"
 
 #include <iostream>
 #include "MainWindow.h"
 
-void PrivilegeProcess();
+//void PrivilegeProcess();
 HANDLE hMutex;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
 	///PrivilegeProcess();
 	MainWindow win;
 
+	//This prevents multiple running of this program.
 	hMutex = CreateMutex(NULL, TRUE, MUTEX_NAME);
 	if (GetLastError() == ERROR_ALREADY_EXISTS) {
 		HWND fore = FindWindow(win.ClassName(), WINDOW_NAME);
@@ -48,6 +49,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
 	return 0;
 }
 
+/*
 void PrivilegeProcess() {
 	BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
 
@@ -142,4 +144,4 @@ BOOL SetPrivilege(HANDLE hToken, LPCTSTR Privilege, BOOL bEnablePrivilege)
 		return FALSE;
 	}
 	return TRUE;
-}
+}*/
