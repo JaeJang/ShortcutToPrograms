@@ -453,6 +453,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 			//the path fired, switch to the process.
 			//If there are more than one, switch them around instead of creating new window.
 			if (!EnumOpenWindows::GetOpenProcess(openList[s], s)) {
+				//ShowWindow(openList[s].front(), SW_SHOW);
 				SwitchToThisWindow(openList[s].front(), TRUE);
 			}
 			else

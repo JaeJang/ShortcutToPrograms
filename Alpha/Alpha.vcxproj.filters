@@ -21,9 +21,6 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,21 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnumOpenWindows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource5.h">

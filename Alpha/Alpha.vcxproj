@@ -127,7 +127,6 @@
     <ClCompile Include="EditWindow.cpp" />
     <ClCompile Include="EnumOpenWindows.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="main3.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="TextWindow.cpp" />
   </ItemGroup>
@@ -136,11 +135,6 @@
     <ClInclude Include="EditWindow.h" />
     <ClInclude Include="EnumOpenWindows.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
-    <ClInclude Include="resource2.h" />
-    <ClInclude Include="resource3.h" />
-    <ClInclude Include="resource4.h" />
     <ClInclude Include="resource5.h" />
     <ClInclude Include="TextWindow.h" />
   </ItemGroup>
