@@ -109,9 +109,9 @@ void MainWindow::InitNotifyIconData()
 
 	//Message Id for icon in the notification area
 	notifyIconData.uCallbackMessage = WM_TRAY;
-
+	
 	//Set up icon image
-	notifyIconData.hIcon = (HICON)LoadImage(NULL, L"Icon_tray.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+	notifyIconData.hIcon = (HICON)LoadImage(NULL, addRootPath(L"Icon_tray.ico").c_str() , IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
 	//notifyIconData.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_ICON2));
 	//Set up text when the mouse cursor is over the icon
 	wcscpy_s(notifyIconData.szTip,128, L"test");
@@ -282,12 +282,7 @@ BOOL MainWindow::SetRegistryStartProgram(BOOL autoExec)
 //The paths are automatically saved when the program is destroyed
 void MainWindow::SavePrograms()
 {
-	WCHAR winName[MAX_WINDOW_NAME];
-	GetWindowModuleFileName(m_hwnd, winName, MAX_WINDOW_NAME);
-	STRING rootPath(winName);
-	UINT found = rootPath.find_last_of(L"\\");
-	rootPath = rootPath.substr(0, found + 1);
-	rootPath += L"list.dat";
+	STRING rootPath = addRootPath(L"list.dat");
 
 	std::wofstream fout;
 	fout.open(rootPath);
@@ -324,12 +319,7 @@ BOOL MainWindow::LoadPrograms()
 	//it doesn't read the file.
 	//Instead, it gets full path to exe file and add the saved file name 
 	//at the end of the path.
-	WCHAR winName[MAX_WINDOW_NAME];
-	GetWindowModuleFileName(m_hwnd, winName, MAX_WINDOW_NAME);
-	STRING rootPath(winName);
-	UINT found = rootPath.find_last_of(L"\\");
-	rootPath = rootPath.substr(0, found + 1);
-	rootPath += L"list.dat";
+	STRING rootPath = addRootPath(L"list.dat");
 
 	std::wfstream fin;
 	fin.open(rootPath);
@@ -351,6 +341,18 @@ BOOL MainWindow::LoadPrograms()
 	
 	return TRUE;
 
+}
+
+STRING MainWindow::addRootPath(const WCHAR * fileName)
+{
+	WCHAR winName[MAX_WINDOW_NAME];
+	GetWindowModuleFileName(m_hwnd, winName, MAX_WINDOW_NAME);
+	STRING rootPath(winName);
+	UINT found = rootPath.find_last_of(L"\\");
+	rootPath = rootPath.substr(0, found + 1);
+	rootPath += STRING(fileName);
+
+	return rootPath;
 }
 
 
