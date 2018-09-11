@@ -23,6 +23,7 @@
     <ProjectGuid>{009DC9BF-AFC4-4746-BC89-54F2D2160616}</ProjectGuid>
     <RootNamespace>Alpha</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>ShortcutToYourPrograms</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
