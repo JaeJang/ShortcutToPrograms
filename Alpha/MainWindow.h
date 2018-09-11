@@ -103,5 +103,7 @@ private:
 
 	void SavePrograms();
 	BOOL LoadPrograms();
+
+	STRING addRootPath(const WCHAR *);
 };
 
