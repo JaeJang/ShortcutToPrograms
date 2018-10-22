@@ -280,6 +280,7 @@ BOOL MainWindow::SetRegistryStartProgram(BOOL autoExec)
 }
 
 //The paths are automatically saved when the program is destroyed
+//or pathes of programs are registered
 void MainWindow::SavePrograms()
 {
 	STRING rootPath = addRootPath(L"list.dat");
@@ -388,6 +389,7 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 				return 0;
 			}
 			MESSAGE_BOX(L"Registered");
+			SavePrograms();
 			return 0;
 		//Actions for Checkbox.
 		case SET_STARTUP:
