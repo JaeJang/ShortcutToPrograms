@@ -14,3 +14,7 @@
 ![default](https://user-images.githubusercontent.com/25515692/45377147-95628980-b5ae-11e8-8eef-7f8ef174b28c.JPG)
 ###### *Text in the red box is what you need to copy and paste to this program*
 ###### *This program may show not visible programs such as ApplicationFrameHost.exe whcih are running background*
+
+---
+##### version 1.1
+List file is now also updated when the register buttons is clicked.
